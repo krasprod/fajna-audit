@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Маркетинг-аудит салону «Файна Перукарня»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #2B1A3D;
+  --navy-2: #3A2354;
+  --ink: #1A0E26;
+  --muted: #6B5B7A;
+  --line: #EFE6F0;
+  --bg: #FBF7F9;
+  --white: #FFFFFF;
+  --accent: #E8A87C;
+  --accent-2: #F5C6A8;
+  --mint: #85C88A;
+  --violet: #B983FF;
+  --pink: #FF6B9A;
+  --rose: #D64F87;
+  --red: #E63946;
+  --amber: #F5B841;
+  --radius: 20px;
+  --shadow-sm: 0 2px 10px rgba(43,26,61,0.06);
+  --shadow-md: 0 12px 40px rgba(43,26,61,0.10);
+  --shadow-lg: 0 30px 80px rgba(43,26,61,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.wrap-narrow{max-width:860px;margin:0 auto;padding:0 24px}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{line-height:1.2;letter-spacing:-0.02em;font-weight:700}
+h1{font-size:clamp(32px,4.8vw,52px);font-weight:800;letter-spacing:-0.03em}
+h2{font-size:clamp(26px,3.4vw,38px)}
+h3{font-size:22px}
+h4{font-size:17px;font-weight:700}
+p{font-size:16px;color:var(--muted);line-height:1.7}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(251,247,249,.88);
+  backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.logo-mark{
+  width:32px;height:32px;border-radius:9px;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--rose) 100%);
+  color:var(--white);display:grid;place-items:center;
+  font-weight:800;font-size:13px;
+}
+.logo-text small{color:var(--muted);font-weight:500;display:block;font-size:11px}
+.nav-links{display:flex;gap:24px;font-size:13px;color:var(--muted);font-weight:500}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+@media(max-width:760px){.nav-links{display:none}}
+.nav-date{font-size:12px;color:var(--muted);font-weight:500}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);
+  color:var(--white);position:relative;overflow:hidden;padding:80px 0 90px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 80% 20%,rgba(255,107,154,.18) 0%,transparent 50%),
+    radial-gradient(circle at 20% 80%,rgba(232,168,124,.12) 0%,transparent 50%);
+}
+.hero::after{
+  content:'';position:absolute;inset:0;opacity:.2;
+  background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.2) 1px,transparent 0);
+  background-size:24px 24px;
+}
+.hero-inner{position:relative;z-index:1}
+.tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  font-size:13px;color:rgba(255,255,255,.9);margin-bottom:24px;
+}
+.tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink)}
+.hero h1{color:var(--white);margin-bottom:22px;max-width:820px}
+.hero h1 span{background:linear-gradient(135deg,var(--accent) 0%,var(--pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p.lead{font-size:18px;color:rgba(255,255,255,.78);margin-bottom:36px;max-width:680px}
+.hero-meta{display:flex;gap:32px;flex-wrap:wrap;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
+.hero-meta-item .l{font-size:12px;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:4px}
+.hero-meta-item .v{font-size:15px;color:rgba(255,255,255,.95);font-weight:600}
+
+/* SECTION */
+section{padding:90px 0}
+.section-head{margin-bottom:48px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;color:var(--muted);font-weight:700;
+  text-transform:uppercase;letter-spacing:0.12em;margin-bottom:14px;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--rose)}
+.section-head h2{margin-bottom:14px;max-width:720px}
+.section-head p{max-width:720px;font-size:17px}
+
+/* Scorecard */
+.scorecard{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  padding:40px;box-shadow:var(--shadow-sm);margin-top:-60px;position:relative;z-index:2;
+}
+@media(max-width:600px){.scorecard{padding:28px 22px}}
+.scorecard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.scorecard-title h3{font-size:20px;margin-bottom:4px}
+.scorecard-title p{font-size:14px}
+.total-score{text-align:right}
+.total-score .n{font-size:44px;font-weight:800;color:var(--navy);letter-spacing:-0.03em;line-height:1}
+.total-score .n small{font-size:18px;color:var(--muted);font-weight:600}
+.total-score .l{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){.score-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.score-grid{grid-template-columns:1fr}}
+.score-item{padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.score-label{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.score-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:8px}
+.score-bar-fill{height:100%;border-radius:4px;background:var(--mint)}
+.score-bar-fill.mid{background:var(--amber)}
+.score-bar-fill.low{background:var(--red)}
+.score-value{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink);font-weight:600}
+.score-value .label{color:var(--muted);font-weight:500}
+
+/* Channel block */
+.channel{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:32px;overflow:hidden;
+}
+.channel-head{padding:28px 32px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+@media(max-width:600px){.channel-head{padding:22px}}
+.channel-title{display:flex;gap:14px;align-items:center}
+.channel-icon{
+  width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+  font-size:20px;flex-shrink:0;
+}
+.channel-icon.google{background:linear-gradient(135deg,#4285F4,#34A853);color:var(--white)}
+.channel-icon.instagram{background:linear-gradient(135deg,#F58529,#DD2A7B,#8134AF);color:var(--white)}
+.channel-icon.facebook{background:#1877F2;color:var(--white)}
+.channel-title h3{font-size:20px;margin-bottom:2px}
+.channel-title .handle{font-size:13px;color:var(--muted)}
+.channel-status{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.05em;
+}
+.channel-status.good{background:rgba(133,200,138,.14);color:#2F8833}
+.channel-status.mid{background:rgba(245,184,65,.16);color:#B8870F}
+.channel-status.low{background:rgba(230,57,70,.12);color:#C4262F}
+.channel-status::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.channel-body{padding:32px}
+@media(max-width:600px){.channel-body{padding:22px}}
+
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+@media(max-width:760px){.metric-row{grid-template-columns:repeat(2,1fr)}}
+.metric{padding:16px;background:var(--bg);border-radius:12px}
+.metric .v{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1;margin-bottom:4px}
+.metric .v.red{color:var(--red)}
+.metric .v.amber{color:#B8870F}
+.metric .v.green{color:#2F8833}
+.metric .l{font-size:12px;color:var(--muted);font-weight:500}
+
+.findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:760px){.findings-grid{grid-template-columns:1fr}}
+.findings-col h4{font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:14px;font-weight:700}
+.findings-col ul{list-style:none}
+.findings-col li{padding:10px 0 10px 26px;position:relative;font-size:15px;color:var(--ink);line-height:1.55;border-bottom:1px dashed var(--line)}
+.findings-col li:last-child{border-bottom:0}
+.findings-col li::before{position:absolute;left:0;top:11px;font-weight:800;font-size:14px}
+.findings-col ul.plus li::before{content:'+';color:#2F8833}
+.findings-col ul.minus li::before{content:'−';color:var(--red)}
+.findings-col li strong{color:var(--ink);font-weight:700}
+.findings-col li span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+
+/* Conclusions */
+.conclusions{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:var(--white);border-radius:var(--radius);padding:56px 48px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+@media(max-width:600px){.conclusions{padding:36px 24px}}
+.conclusions::before{
+  content:'';position:absolute;inset:0;opacity:.12;
+  background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.3) 1px,transparent 0);
+  background-size:20px 20px;
+}
+.conclusions-inner{position:relative;z-index:1}
+.conclusions h2{color:var(--white);margin-bottom:14px}
+.conclusions .eyebrow{color:rgba(255,255,255,.75)}
+.conclusions .eyebrow::before{background:var(--pink)}
+.conclusions p.lead{color:rgba(255,255,255,.82);font-size:17px;max-width:720px;margin-bottom:36px}
+.key-points{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:860px){.key-points{grid-template-columns:1fr}}
+.key-point{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:24px;
+}
+.key-point .n{font-size:32px;font-weight:800;color:var(--pink);letter-spacing:-0.02em;line-height:1;margin-bottom:10px}
+.key-point h4{color:var(--white);margin-bottom:8px;font-size:16px}
+.key-point p{color:rgba(255,255,255,.78);font-size:14px;line-height:1.55}
+
+/* Priority list */
+.priorities{margin-top:48px}
+.priority{
+  display:grid;grid-template-columns:60px 1fr auto;gap:24px;align-items:center;
+  padding:22px 28px;background:var(--white);border:1px solid var(--line);
+  border-radius:16px;margin-bottom:12px;
+}
+@media(max-width:680px){.priority{grid-template-columns:48px 1fr;padding:18px 20px}.priority-impact{grid-column:2}}
+.priority-num{
+  width:44px;height:44px;border-radius:12px;background:var(--bg);
+  display:grid;place-items:center;font-weight:800;font-size:18px;color:var(--navy);
+}
+.priority-num.critical{background:rgba(230,57,70,.1);color:var(--red)}
+.priority-num.high{background:rgba(245,184,65,.14);color:#B8870F}
+.priority-num.medium{background:rgba(133,200,138,.14);color:#2F8833}
+.priority-body h4{margin-bottom:4px;font-size:16px}
+.priority-body p{font-size:14px;margin:0}
+.priority-impact{
+  font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;
+  letter-spacing:0.06em;padding:6px 12px;background:var(--bg);border-radius:999px;
+}
+
+/* Footer */
+footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.footer-author{display:flex;align-items:center;gap:12px}
+.footer-author strong{color:var(--ink);font-weight:700}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo">
+      <div class="logo-mark">ФП</div>
+      <div>
+        <div>Маркетинг-аудит</div>
+        <small>Файна Перукарня · Поділ</small>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#overview">Огляд</a>
+      <a href="#google">Google</a>
+      <a href="#instagram">Instagram</a>
+      <a href="#facebook">Facebook</a>
+      <a href="#conclusions">Висновки</a>
+    </div>
+    <div class="nav-date">Квітень 2026</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <span class="tag">Незалежний аудит · квітень 2026</span>
+    <h1>Маркетинг-аудит салону краси <span>«Файна Перукарня»</span></h1>
+    <p class="lead">Дослідження трьох основних цифрових каналів бізнесу: Google Бізнес-профіль, Instagram, Facebook. Документ містить фактичну картину на квітень 2026 року: метрики, сильні сторони, проблемні місця та перелік пріоритетів для вирішення.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="l">Об'єкт</div>
+        <div class="v">Салон краси «Файна Перукарня»</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="l">Локація</div>
+        <div class="v">вул. Турівська, 9 · Поділ, Київ</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="l">Замовник</div>
+        <div class="v">Людмила Чумак</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="l">Дата</div>
+        <div class="v">20 квітня 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORECARD -->
+<div class="wrap">
+  <div class="scorecard reveal">
+    <div class="scorecard-head">
+      <div class="scorecard-title">
+        <h3>Загальна оцінка маркетингу</h3>
+        <p>Середньозважений бал по трьох каналах + репутація</p>
+      </div>
+      <div class="total-score">
+        <div class="n">4.8<small> / 10</small></div>
+        <div class="l">Загальний бал</div>
+      </div>
+    </div>
+    <div class="score-grid">
+      <div class="score-item">
+        <div class="score-label">Репутація</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:90%"></div></div>
+        <div class="score-value"><span class="label">Сильна</span><span>9 / 10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Google-профіль</div>
+        <div class="score-bar"><div class="score-bar-fill mid" style="width:55%"></div></div>
+        <div class="score-value"><span class="label">Середньо</span><span>5.5 / 10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Instagram</div>
+        <div class="score-bar"><div class="score-bar-fill low" style="width:30%"></div></div>
+        <div class="score-value"><span class="label">Слабко</span><span>3 / 10</span></div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">Facebook</div>
+        <div class="score-bar"><div class="score-bar-fill low" style="width:20%"></div></div>
+        <div class="score-value"><span class="label">Неактивний</span><span>2 / 10</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="wrap-narrow">
+    <div class="section-head reveal">
+      <div class="eyebrow">Резюме аудиту</div>
+      <h2>Короткий огляд</h2>
+    </div>
+    <div class="reveal" style="font-size:17px;color:var(--ink);line-height:1.75">
+      <p style="color:var(--ink);margin-bottom:18px">Салон краси «Файна Перукарня» розташований у виграшній локації — Поділ, 1 хвилина пішки від метро. Бізнес має <strong style="color:var(--ink)">сильну репутацію</strong>: рейтинг 4.7★ у Google, 220 відгуків клієнтів, логотип і фірмовий стиль.</p>
+      <p style="color:var(--ink);margin-bottom:18px">Водночас <strong style="color:var(--ink)">цифрова видимість провалена</strong>. Instagram має 334 підписники при 207 опублікованих постах — співвідношення, яке свідчить про публікацію контенту без стратегії охоплень. Facebook-сторінка по суті неактивна. Google Бізнес-профіль ведеться, але недооптимізований — за словами власниці, салон <strong style="color:var(--ink)">просів з 1-го місця у локальній видачі</strong>.</p>
+      <p style="color:var(--ink);margin-bottom:18px">Рекламні кампанії (Google Ads, Meta Ads) не ведуться. Бізнес повністю спирається на органічний пошук, сарафанне радіо і повторних клієнтів.</p>
+      <p style="color:var(--ink)"><strong style="color:var(--ink)">Головний висновок:</strong> репутаційний фундамент готовий до масштабування, але не використовується. Потенційні клієнти, які зайшли на сторінку, майже завжди стають клієнтами, однак дуже мало людей на цю сторінку взагалі заходить.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE -->
+<section id="google" style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Канал 1</div>
+      <h2>Google Бізнес-профіль</h2>
+      <p>Найважливіший канал для локального салону. Для бізнесу біля метро Google Карти зазвичай приносять 40-60% нових клієнтів.</p>
+    </div>
+
+    <div class="channel reveal">
+      <div class="channel-head">
+        <div class="channel-title">
+          <div class="channel-icon google">G</div>
+          <div>
+            <h3>Файна перукарня</h3>
+            <div class="handle">maps.google.com · оновлено 3 дні тому</div>
+          </div>
+        </div>
+        <div class="channel-status mid">Потребує оптимізації</div>
+      </div>
+      <div class="channel-body">
+        <div class="metric-row">
+          <div class="metric">
+            <div class="v green">4.7★</div>
+            <div class="l">Рейтинг</div>
+          </div>
+          <div class="metric">
+            <div class="v green">220</div>
+            <div class="l">Відгуків</div>
+          </div>
+          <div class="metric">
+            <div class="v amber">1</div>
+            <div class="l">Категорія</div>
+          </div>
+          <div class="metric">
+            <div class="v red">↓</div>
+            <div class="l">Позиція у видачі</div>
+          </div>
+        </div>
+
+        <div class="findings-grid">
+          <div class="findings-col">
+            <h4>Сильні сторони</h4>
+            <ul class="plus">
+              <li><strong>Рейтинг 4.7★ з 220 відгуків</strong><span>Відмінний показник. Підтверджує якість послуг та створює довіру для нових клієнтів.</span></li>
+              <li><strong>Профіль активно ведеться</strong><span>Останнє оновлення 3 дні тому — власниця слідкує за актуальністю.</span></li>
+              <li><strong>Заповнена базова інформація</strong><span>Адреса, телефон, години роботи, фото салону і робіт наявні.</span></li>
+              <li><strong>Ідеальна локація в картці</strong><span>Позначено «1 хв пішки» від метро — критичний параметр для локальних клієнтів.</span></li>
+            </ul>
+          </div>
+          <div class="findings-col">
+            <h4>Що потребує уваги</h4>
+            <ul class="minus">
+              <li><strong>Просідання у локальній видачі</strong><span>За словами власниці, салон був №1, зараз нижче. Означає що конкуренти активніші.</span></li>
+              <li><strong>Одна категорія замість декількох</strong><span>Використано тільки «Салон краси». Не додано підкатегорії: парикмахерська, манікюрний салон, окрашування.</span></li>
+              <li><strong>Розділ «Послуги» не деталізований</strong><span>Відсутні окремі послуги з цінами — це параметр ранжування у Google.</span></li>
+              <li><strong>Немає Google-постів</strong><span>Регулярні пости (акції, роботи, новини) потужно впливають на позицію у видачі.</span></li>
+              <li><strong>Відгуки без відповідей</strong><span>Відповіді власника на відгуки покращують ранжування і довіру.</span></li>
+              <li><strong>В описі немає ключових слів локації</strong><span>Відсутні згадки «Поділ», «метро Тараса Шевченка», за якими шукають люди.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram" style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Канал 2</div>
+      <h2>Instagram</h2>
+      <p>Основний канал візуального просування для салонів краси у 2026 році. Для локального бізнесу працює як галерея робіт і точка першого контакту з клієнтом.</p>
+    </div>
+
+    <div class="channel reveal">
+      <div class="channel-head">
+        <div class="channel-title">
+          <div class="channel-icon instagram">IG</div>
+          <div>
+            <h3>@fajna.perukarnya</h3>
+            <div class="handle">Салон краси «Файна Перукарня»</div>
+          </div>
+        </div>
+        <div class="channel-status low">Критично слабкий</div>
+      </div>
+      <div class="channel-body">
+        <div class="metric-row">
+          <div class="metric">
+            <div class="v">207</div>
+            <div class="l">Постів</div>
+          </div>
+          <div class="metric">
+            <div class="v red">334</div>
+            <div class="l">Підписники</div>
+          </div>
+          <div class="metric">
+            <div class="v red">570</div>
+            <div class="l">Підписок</div>
+          </div>
+          <div class="metric">
+            <div class="v red">0.59</div>
+            <div class="l">Follow/Following ratio</div>
+          </div>
+        </div>
+
+        <div class="findings-grid">
+          <div class="findings-col">
+            <h4>Сильні сторони</h4>
+            <ul class="plus">
+              <li><strong>Організовані Highlights</strong><span>Наявні збережені сторіс з категоріями: Наші роботи, Укладка, Відгуки, Манікюр.</span></li>
+              <li><strong>Якісне лого і візуальна айдентика</strong><span>Логотип з маками впізнаваний і відповідає сучасним трендам салонів.</span></li>
+              <li><strong>Є активна публікація</strong><span>207 постів свідчать, що команда публікує регулярно — матеріал є, системи немає.</span></li>
+              <li><strong>Прив'язаний Facebook-профіль</strong><span>Технічна інтеграція між сторінками виконана.</span></li>
+            </ul>
+          </div>
+          <div class="findings-col">
+            <h4>Що потребує уваги</h4>
+            <ul class="minus">
+              <li><strong>Катастрофічно низьке співвідношення охоплення до контенту</strong><span>207 постів і лише 334 підписники — означає, що пости не отримують охоплення. Ознаки: немає Reels, немає хештег-стратегії, немає таргетованого просування.</span></li>
+              <li><strong>Підписок більше ніж підписників (570 проти 334)</strong><span>Означає тактику «підписатись на людей заради взаємної підписки». У 2026 році не працює, шкодить репутації профілю.</span></li>
+              <li><strong>У біо немає району і метро</strong><span>Для локального бізнесу критично. Клієнт не розуміє чи Ви поруч з ним.</span></li>
+              <li><strong>Посилання в біо — сирий Google Maps URL</strong><span>Немає посилання на онлайн-запис, прайс, месенджер. Втрачена можливість конверсії.</span></li>
+              <li><strong>Відсутні Reels</strong><span>Короткі відео у 2026 році — єдиний масштабований інструмент органічного охоплення в Instagram.</span></li>
+              <li><strong>Опис дженериковий</strong><span>«Ваш експерт у світі краси» — не комунікує ні спеціалізації, ні УТП, ні переваг салону.</span></li>
+              <li><strong>Немає гео-тегів у постах</strong><span>Не використовується тег «Поділ», «Київ» — впливає на показ у гео-рекомендаціях.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACEBOOK -->
+<section id="facebook" style="padding-top:20px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Канал 3</div>
+      <h2>Facebook</h2>
+      <p>Для салонів краси у Україні Facebook як орієнтований на клієнтів канал майже не працює (цільова аудиторія — в Instagram). Проте потрібен як технічна основа для запуску Meta Ads.</p>
+    </div>
+
+    <div class="channel reveal">
+      <div class="channel-head">
+        <div class="channel-title">
+          <div class="channel-icon facebook">f</div>
+          <div>
+            <h3>Файна Перукарня</h3>
+            <div class="handle">facebook.com · здоров'я сторінки: «Добре»</div>
+          </div>
+        </div>
+        <div class="channel-status low">Неактивна</div>
+      </div>
+      <div class="channel-body">
+        <div class="metric-row">
+          <div class="metric">
+            <div class="v amber">504</div>
+            <div class="l">Підписники</div>
+          </div>
+          <div class="metric">
+            <div class="v red">—</div>
+            <div class="l">Активність постів</div>
+          </div>
+          <div class="metric">
+            <div class="v red">Немає</div>
+            <div class="l">Кнопка запису</div>
+          </div>
+          <div class="metric">
+            <div class="v green">OK</div>
+            <div class="l">Технічний стан</div>
+          </div>
+        </div>
+
+        <div class="findings-grid">
+          <div class="findings-col">
+            <h4>Сильні сторони</h4>
+            <ul class="plus">
+              <li><strong>Сторінка існує і технічно справна</strong><span>Facebook позначає здоров'я як «Добре» — немає технічних обмежень для запуску реклами.</span></li>
+              <li><strong>Наявна базова аудиторія</strong><span>504 підписники — не багато, але достатньо для створення look-alike аудиторій у Meta Ads.</span></li>
+              <li><strong>Є обкладинка з інтер'єром салону</strong><span>Візуально ідентифікує бізнес з першого погляду.</span></li>
+            </ul>
+          </div>
+          <div class="findings-col">
+            <h4>Що потребує уваги</h4>
+            <ul class="minus">
+              <li><strong>Сторінка функціонально мертва</strong><span>Нові пости рідкісні або відсутні. Як канал залучення клієнтів не працює.</span></li>
+              <li><strong>Опис шаблонний</strong><span>«Усі види перукарських послуг, манікюр, педикюр та інше». Формулювання «та інше» говорить про відсутність позиціонування.</span></li>
+              <li><strong>Немає адреси/метро у видимій шапці</strong><span>Для локального бізнесу критично — клієнт має одразу розуміти, чи Ви поруч.</span></li>
+              <li><strong>Немає CTA-кнопки «Записатись»</strong><span>Facebook дозволяє додати кнопку «Book Now» з посиланням — не налаштовано.</span></li>
+              <li><strong>Не налаштований Meta Business Manager</strong><span>Без нього не можна запустити повноцінний таргет і відстежувати конверсії.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSIONS -->
+<section id="conclusions">
+  <div class="wrap">
+    <div class="conclusions reveal">
+      <div class="conclusions-inner">
+        <div class="eyebrow">Висновки аудиту</div>
+        <h2>Три ключові інсайти</h2>
+        <p class="lead">За результатами аналізу трьох каналів виділено три фундаментальні моменти, які визначають поточний стан маркетингу салону.</p>
+
+        <div class="key-points">
+          <div class="key-point">
+            <div class="n">01</div>
+            <h4>Репутація значно перевищує видимість</h4>
+            <p>Салон має дані, якими багато хто з конкурентів не може похвалитися: 4.7★, 220 відгуків, 12+ років на ринку. Але ці дані не конвертуються в новий трафік — їх просто не видно новим клієнтам.</p>
+          </div>
+          <div class="key-point">
+            <div class="n">02</div>
+            <h4>Контент створюється без стратегії охоплення</h4>
+            <p>207 публікацій в Instagram при 334 підписниках — це свідчення того, що команда знімає і публікує, але без розуміння, як алгоритми показують контент. Немає Reels, хештегів, гео-тегів, таргету.</p>
+          </div>
+          <div class="key-point">
+            <div class="n">03</div>
+            <h4>Бізнес живе виключно на органіці</h4>
+            <p>Жоден з оплачених каналів (Google Ads, Meta Ads, локальна реклама) не використовується. Для салону у великому місті це означає постійну залежність від сарафану і повторних клієнтів.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Priorities -->
+    <div class="priorities">
+      <div class="section-head reveal" style="margin-top:64px;margin-bottom:32px">
+        <div class="eyebrow">Пріоритети за рівнем впливу</div>
+        <h2 style="font-size:28px">Що має найбільший вплив на результат</h2>
+        <p style="font-size:15px">Перелік не містить конкретних рекомендацій — він показує, які напрямки мають найвищий пріоритет з точки зору потенціалу впливу на потік клієнтів.</p>
+      </div>
+
+      <div class="priority reveal">
+        <div class="priority-num critical">1</div>
+        <div class="priority-body">
+          <h4>Оптимізація Google Бізнес-профілю</h4>
+          <p>Найшвидший шлях до відновлення потоку клієнтів. Локальний бізнес біля метро без топ-позицій у Google Maps втрачає основне джерело нових клієнтів.</p>
+        </div>
+        <div class="priority-impact">Критичний вплив</div>
+      </div>
+
+      <div class="priority reveal">
+        <div class="priority-num critical">2</div>
+        <div class="priority-body">
+          <h4>Запуск платної реклами у Meta (Instagram/Facebook)</h4>
+          <p>Таргет на гео навколо салону — єдиний спосіб швидко донести існування бізнесу до потенційних клієнтів, які живуть і працюють поряд.</p>
+        </div>
+        <div class="priority-impact">Критичний вплив</div>
+      </div>
+
+      <div class="priority reveal">
+        <div class="priority-num high">3</div>
+        <div class="priority-body">
+          <h4>Перебудова стратегії Instagram</h4>
+          <p>Оптимізація біо, перехід на Reels-контент, додавання гео-тегів і посилань. Перетворення сторінки з «щоденника» на інструмент залучення клієнтів.</p>
+        </div>
+        <div class="priority-impact">Високий вплив</div>
+      </div>
+
+      <div class="priority reveal">
+        <div class="priority-num high">4</div>
+        <div class="priority-body">
+          <h4>Робота з відгуками і репутацією</h4>
+          <p>Відповіді на існуючі відгуки, система стимуляції нових після візиту. Посилення вже сильної сторони бізнесу.</p>
+        </div>
+        <div class="priority-impact">Високий вплив</div>
+      </div>
+
+      <div class="priority reveal">
+        <div class="priority-num medium">5</div>
+        <div class="priority-body">
+          <h4>Google Ads на локальні пошукові запити</h4>
+          <p>Додатковий канал «гарячого» трафіку. Запуск доцільний після оптимізації Google-профілю та посадкової точки для запису.</p>
+        </div>
+        <div class="priority-impact">Середній вплив</div>
+      </div>
+
+      <div class="priority reveal">
+        <div class="priority-num medium">6</div>
+        <div class="priority-body">
+          <h4>Оптимізація Facebook-сторінки</h4>
+          <p>Не як канал залучення, а як технічна основа для таргету і додатковий сигнал довіри. Мінімальний обсяг робіт.</p>
+        </div>
+        <div class="priority-impact">Середній вплив</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-author">
+        <div class="logo-mark">АК</div>
+        <div>
+          <strong>Андрій Красік</strong><br>
+          <span>Маркетинг-аналітик · Київ</span>
+        </div>
+      </div>
+      <div>
+        Аудит проведено · 20 квітня 2026<br>
+        Методологія: аналіз відкритих даних публічних профілів
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
