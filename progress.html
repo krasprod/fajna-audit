@@ -200,6 +200,47 @@ body.admin .status-pill{cursor:pointer}
 .add-request-btn{margin-top:10px;padding:8px 12px;background:transparent;border:1px dashed var(--rose);border-radius:8px;color:var(--rose);font-weight:700;font-size:12px;cursor:pointer;width:100%}
 .add-request-btn:hover{background:rgba(214,79,135,.05)}
 
+/* PAYMENT SUMMARY (top) */
+.pay-summary{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:var(--white);border-radius:var(--radius);padding:28px 32px;margin-top:20px;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.pay-summary::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(255,107,154,.18) 0%,transparent 70%)}
+.pay-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;position:relative;z-index:1}
+.pay-cell .l{font-size:11px;color:rgba(255,255,255,.6);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.pay-cell .v{font-size:28px;font-weight:800;color:var(--white);letter-spacing:-0.02em;line-height:1}
+.pay-cell .v small{font-size:15px;color:rgba(255,255,255,.6);font-weight:600;margin-left:4px}
+.pay-cell.accent .v{background:linear-gradient(135deg,var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.pay-cell.mint .v{color:var(--mint)}
+.pay-bar{height:6px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;margin-top:16px;position:relative;z-index:1}
+.pay-bar-fill{height:100%;background:linear-gradient(90deg,var(--mint),#A8E0AC);border-radius:3px;transition:width .6s}
+
+/* PAYMENT CHIP in phase-head */
+.price-chip{display:inline-flex;align-items:center;gap:5px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.price-chip.unpaid{background:rgba(245,184,65,.14);color:#8B6914}
+.price-chip.unpaid::before{content:'💳';font-size:11px}
+.price-chip.paid{background:rgba(133,200,138,.14);color:var(--mint-dark)}
+.price-chip.paid::before{content:'✓';font-size:11px}
+
+/* PAYMENT BLOCK inside phase */
+.pay-block{background:linear-gradient(135deg,rgba(43,26,61,.04),rgba(43,26,61,.01));border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:12px;padding:16px 20px;margin-bottom:22px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.pay-block.paid{border-left-color:var(--mint);background:linear-gradient(135deg,rgba(133,200,138,.06),rgba(133,200,138,.01))}
+.pay-block-left{min-width:0}
+.pay-block-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.pay-block.paid .pay-block-label{color:var(--mint-dark)}
+.pay-block-price{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1.1;margin-bottom:6px}
+.pay-block-price small{font-size:14px;color:var(--muted);font-weight:600;margin-left:3px}
+.pay-block.paid .pay-block-price{color:var(--mint-dark)}
+.pay-block-note{font-size:13px;color:var(--muted);line-height:1.5}
+.pay-block-right{display:flex;flex-direction:column;gap:6px;align-items:stretch;min-width:160px}
+.pay-block-right .btn-pay-admin{padding:7px 12px;border-radius:8px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;border:1px solid var(--line);background:var(--white);color:var(--ink)}
+.pay-block-right .btn-pay-admin:hover{background:var(--bg)}
+.pay-block-right .btn-pay-admin.toggle{background:var(--mint);color:var(--white);border-color:var(--mint)}
+.pay-block-right .btn-pay-admin.toggle:hover{background:var(--mint-dark)}
+.pay-block.paid .btn-pay-admin.toggle{background:var(--amber);color:var(--ink);border-color:var(--amber)}
+.paid-mark{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--mint-dark);font-weight:700}
+@media(max-width:640px){
+  .pay-block{grid-template-columns:1fr}
+  .pay-block-right{min-width:0}
+}
+
 /* FOOTER */
 footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white);margin-top:40px}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
@@ -262,6 +303,29 @@ footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white);m
       </div>
     </div>
     <div class="progress-bar"><div class="progress-bar-fill" data-progress-bar style="width:0%"></div></div>
+  </div>
+
+  <!-- PAYMENT SUMMARY -->
+  <div class="pay-summary" id="pay-summary">
+    <div class="pay-summary-grid">
+      <div class="pay-cell">
+        <div class="l">Загальна вартість проєкту</div>
+        <div class="v"><span data-pay-total>0</span><small data-currency>грн</small></div>
+      </div>
+      <div class="pay-cell mint">
+        <div class="l">Вже оплачено</div>
+        <div class="v"><span data-pay-paid>0</span><small data-currency>грн</small></div>
+      </div>
+      <div class="pay-cell accent">
+        <div class="l">Залишок до сплати</div>
+        <div class="v"><span data-pay-left>0</span><small data-currency>грн</small></div>
+      </div>
+      <div class="pay-cell">
+        <div class="l">Етапів оплачено</div>
+        <div class="v"><span data-pay-count>0</span><small>/<span data-pay-total-count>0</span></small></div>
+      </div>
+    </div>
+    <div class="pay-bar"><div class="pay-bar-fill" data-pay-bar style="width:0%"></div></div>
   </div>
 </div>
 
@@ -395,6 +459,20 @@ function render() {
   document.querySelector('[data-progress-bar]').style.width = pct + '%';
   document.querySelector('[data-total-tasks]').textContent = `${done}/${all.length}`;
 
+  // Payment summary
+  const totalPrice = d.phases.reduce((s, p) => s + (Number(p.price) || 0), 0);
+  const paidPhases = d.phases.filter(p => p.paid);
+  const paidSum = paidPhases.reduce((s, p) => s + (Number(p.paid_amount || p.price) || 0), 0);
+  const leftSum = Math.max(0, totalPrice - paidSum);
+  const payPct = totalPrice ? Math.round(paidSum / totalPrice * 100) : 0;
+  const pts = s => s.toLocaleString('uk-UA').replace(/,/g,' ');
+  document.querySelector('[data-pay-total]').textContent = pts(totalPrice);
+  document.querySelector('[data-pay-paid]').textContent = pts(paidSum);
+  document.querySelector('[data-pay-left]').textContent = pts(leftSum);
+  document.querySelector('[data-pay-count]').textContent = paidPhases.length;
+  document.querySelector('[data-pay-total-count]').textContent = d.phases.length;
+  document.querySelector('[data-pay-bar]').style.width = payPct + '%';
+
   // Phases
   const phasesEl = document.getElementById('phases-list');
   phasesEl.innerHTML = '';
@@ -414,6 +492,7 @@ function render() {
             <div class="meta">
               <span class="priority-pill ${phase.priority}">${priorityLabel(phase.priority)}</span>
               <span>${doneCount} з ${allCount} задач</span>
+              ${phase.price ? `<span class="price-chip ${phase.paid ? 'paid' : 'unpaid'}">${phase.paid ? 'Оплачено' : fmtMoney(phase.price)}</span>` : ''}
             </div>
           </div>
         </div>
@@ -424,6 +503,7 @@ function render() {
       </div>
       <div class="phase-body">
         <div class="phase-desc" data-edit="phases.${idx}.description">${phase.description || ''}</div>
+        ${renderPayBlock(phase, idx)}
         ${renderRequests(phase, idx)}
         <ul class="tasks">
           ${phase.tasks.map((t, ti) => `
@@ -500,6 +580,46 @@ function toggleTask(phaseIdx, taskIdx) {
   state.data.phases[phaseIdx].tasks[taskIdx].done = !state.data.phases[phaseIdx].tasks[taskIdx].done;
   markDirty();
   render();
+}
+
+function renderPayBlock(phase, idx) {
+  if (!phase.price && !state.admin) return '';
+  const price = Number(phase.price) || 0;
+  const paid = !!phase.paid;
+  return `
+    <div class="pay-block ${paid ? 'paid' : ''}">
+      <div class="pay-block-left">
+        <div class="pay-block-label">${paid ? 'Етап оплачено' : 'Для запуску цього етапу'}</div>
+        <div class="pay-block-price"><span data-edit="phases.${idx}.price">${price}</span><small data-currency>грн</small></div>
+        <div class="pay-block-note" data-edit="phases.${idx}.price_note">${phase.price_note || ''}</div>
+        ${paid && phase.paid_date ? `<div class="paid-mark" style="margin-top:8px">✓ Оплачено ${formatDateLong(phase.paid_date)}</div>` : ''}
+      </div>
+      ${state.admin ? `
+        <div class="pay-block-right">
+          <button class="btn-pay-admin toggle" onclick="togglePaid(${idx})">${paid ? '↺ Позначити неоплаченим' : '✓ Позначити оплаченим'}</button>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function togglePaid(idx) {
+  const phase = state.data.phases[idx];
+  phase.paid = !phase.paid;
+  if (phase.paid) {
+    phase.paid_date = new Date().toISOString().slice(0,10);
+    phase.paid_amount = Number(phase.price) || 0;
+  } else {
+    phase.paid_date = '';
+    phase.paid_amount = 0;
+  }
+  markDirty();
+  render();
+}
+
+function fmtMoney(n) {
+  const num = Number(n) || 0;
+  return num.toLocaleString('uk-UA').replace(/,/g, ' ') + ' грн';
 }
 
 function renderRequests(phase, idx) {
