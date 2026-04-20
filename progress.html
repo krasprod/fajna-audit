@@ -404,7 +404,7 @@ const REPO = 'krasprod/fajna-audit';
 const DATA_PATH = 'data.json';
 const ADMIN_KEY_PARAM = 'fajna2026';
 
-let state = { data: null, dirty: false, sha: null, admin: false };
+let state = { data: null, dirty: false, sha: null, admin: false, lastNotifiedStatus: null };
 
 // Init
 async function init() {
@@ -415,6 +415,7 @@ async function init() {
     document.getElementById('admin-panel').classList.add('visible');
   }
   await loadData();
+  state.lastNotifiedStatus = state.data?.current_status || '';
   render();
   if (state.admin) bindEdits();
 }
@@ -564,8 +565,17 @@ function bindEdits() {
     el.contentEditable = 'true';
     el.addEventListener('blur', () => {
       const path = el.dataset.edit;
-      setPath(state.data, path, el.textContent.trim());
+      const newVal = el.textContent.trim();
+      setPath(state.data, path, newVal);
       markDirty();
+      if (path === 'current_status' && newVal && newVal !== state.lastNotifiedStatus) {
+        notifyTelegram(
+          `📍 <b>Оновлення статусу проєкту</b>\n\n` +
+          `<b>Проєкт:</b> ${state.data.project.name}\n\n` +
+          newVal
+        );
+        state.lastNotifiedStatus = newVal;
+      }
     });
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
