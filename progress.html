@@ -305,28 +305,6 @@ footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white);m
     <div class="progress-bar"><div class="progress-bar-fill" data-progress-bar style="width:0%"></div></div>
   </div>
 
-  <!-- PAYMENT SUMMARY -->
-  <div class="pay-summary" id="pay-summary">
-    <div class="pay-summary-grid">
-      <div class="pay-cell">
-        <div class="l">Загальна вартість проєкту</div>
-        <div class="v"><span data-pay-total>0</span><small data-currency>грн</small></div>
-      </div>
-      <div class="pay-cell mint">
-        <div class="l">Вже оплачено</div>
-        <div class="v"><span data-pay-paid>0</span><small data-currency>грн</small></div>
-      </div>
-      <div class="pay-cell accent">
-        <div class="l">Залишок до сплати</div>
-        <div class="v"><span data-pay-left>0</span><small data-currency>грн</small></div>
-      </div>
-      <div class="pay-cell">
-        <div class="l">Етапів оплачено</div>
-        <div class="v"><span data-pay-count>0</span><small>/<span data-pay-total-count>0</span></small></div>
-      </div>
-    </div>
-    <div class="pay-bar"><div class="pay-bar-fill" data-pay-bar style="width:0%"></div></div>
-  </div>
 </div>
 
 <!-- PHASES -->
@@ -369,6 +347,38 @@ footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white);m
       <textarea id="new-event-text" placeholder="Що сталось..."></textarea>
       <label style="display:flex;gap:6px;align-items:center;font-size:13px;margin-bottom:8px"><input type="checkbox" id="new-event-milestone" /> віха (milestone)</label>
       <button class="admin-btn" onclick="addEvent()">+ Додати подію</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT SUMMARY (bottom) -->
+<section style="background:var(--white);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Фінанси проєкту</div>
+      <h2>Загальна вартість і прогрес оплат</h2>
+      <p>Сума всіх етапів, скільки вже сплачено і що залишилось. Кожен етап можна оплачувати окремо, в будь-якому порядку.</p>
+    </div>
+    <div class="pay-summary" id="pay-summary">
+      <div class="pay-summary-grid">
+        <div class="pay-cell">
+          <div class="l">Загальна вартість проєкту</div>
+          <div class="v"><span data-pay-total>0</span><small data-currency>грн</small></div>
+        </div>
+        <div class="pay-cell mint">
+          <div class="l">Вже оплачено</div>
+          <div class="v"><span data-pay-paid>0</span><small data-currency>грн</small></div>
+        </div>
+        <div class="pay-cell accent">
+          <div class="l">Залишок до сплати</div>
+          <div class="v"><span data-pay-left>0</span><small data-currency>грн</small></div>
+        </div>
+        <div class="pay-cell">
+          <div class="l">Етапів оплачено</div>
+          <div class="v"><span data-pay-count>0</span><small>/<span data-pay-total-count>0</span></small></div>
+        </div>
+      </div>
+      <div class="pay-bar"><div class="pay-bar-fill" data-pay-bar style="width:0%"></div></div>
     </div>
   </div>
 </section>
