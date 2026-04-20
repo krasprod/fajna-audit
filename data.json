@@ -13,6 +13,10 @@
     "email": "krasprod.nk@gmail.com",
     "formsubmit": "krasprod.nk@gmail.com"
   },
+  "notifications": {
+    "telegram_bot_token": "",
+    "telegram_chat_id": ""
+  },
   "phases": [
     {
       "id": 1,

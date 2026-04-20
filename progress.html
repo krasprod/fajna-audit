@@ -577,7 +577,19 @@ function bindEdits() {
 }
 
 function toggleTask(phaseIdx, taskIdx) {
-  state.data.phases[phaseIdx].tasks[taskIdx].done = !state.data.phases[phaseIdx].tasks[taskIdx].done;
+  const phase = state.data.phases[phaseIdx];
+  const task = phase.tasks[taskIdx];
+  const wasPhaseComplete = phase.tasks.every(t => t.done);
+  task.done = !task.done;
+  const isPhaseComplete = phase.tasks.every(t => t.done);
+  if (!wasPhaseComplete && isPhaseComplete) {
+    notifyTelegram(
+      `✅ <b>Етап завершено</b>\n\n` +
+      `<b>Проєкт:</b> ${state.data.project.name}\n` +
+      `<b>Етап:</b> ${phase.title}\n` +
+      `<b>Задач виконано:</b> ${phase.tasks.length}/${phase.tasks.length}`
+    );
+  }
   markDirty();
   render();
 }
@@ -609,6 +621,12 @@ function togglePaid(idx) {
   if (phase.paid) {
     phase.paid_date = new Date().toISOString().slice(0,10);
     phase.paid_amount = Number(phase.price) || 0;
+    notifyTelegram(
+      `💰 <b>Етап оплачено</b>\n\n` +
+      `<b>Проєкт:</b> ${state.data.project.name}\n` +
+      `<b>Етап:</b> ${phase.title}\n` +
+      `<b>Сума:</b> ${fmtMoney(phase.paid_amount)}`
+    );
   } else {
     phase.paid_date = '';
     phase.paid_amount = 0;
@@ -651,7 +669,6 @@ function renderRequests(phase, idx) {
             <textarea id="req-text-${idx}-${ri}" placeholder="Напишіть відповідь, дані або коментар..."></textarea>
             <div class="request-actions">
               <button class="btn-send" onclick="sendRequestResponse(${idx},${ri})">📩 Надіслати відповідь</button>
-              <a class="btn-tg" href="${tgUrl}" target="_blank" rel="noopener">✈ Написати у Telegram</a>
             </div>
           </div>
         ` : ''}
@@ -676,6 +693,27 @@ function renderRequests(phase, idx) {
       ${state.admin ? `<button class="add-request-btn" onclick="addRequest(${idx})">+ Додати запит для цього етапу</button>` : ''}
     </div>
   `;
+}
+
+async function notifyTelegram(text) {
+  const n = state.data.notifications || {};
+  const token = n.telegram_bot_token;
+  const chatId = n.telegram_chat_id;
+  if (!token || !chatId) return;
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: text,
+        parse_mode: 'HTML',
+        disable_web_page_preview: true
+      })
+    });
+  } catch (e) {
+    console.warn('Telegram notify failed:', e);
+  }
 }
 
 async function sendRequestResponse(phaseIdx, reqIdx) {
@@ -710,6 +748,14 @@ async function sendRequestResponse(phaseIdx, reqIdx) {
     if (!r.ok) throw new Error('Сервіс відправки недоступний');
     const form = textarea.parentElement;
     form.innerHTML = '<div class="request-sent">✓ Відповідь надіслано. Дякуємо! Андрій отримав її і незабаром оновить статус запиту.</div>';
+    notifyTelegram(
+      `📩 <b>Нова відповідь від клієнта</b>\n\n` +
+      `<b>Проєкт:</b> ${state.data.project.name}\n` +
+      `<b>Клієнт:</b> ${state.data.project.client}\n` +
+      `<b>Етап:</b> ${phase.title}\n` +
+      `<b>Запит:</b> ${req.title}\n\n` +
+      `<b>Відповідь:</b>\n${text}`
+    );
   } catch (e) {
     btn.disabled = false;
     btn.textContent = '📩 Надіслати відповідь';
