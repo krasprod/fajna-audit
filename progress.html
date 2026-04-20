@@ -158,6 +158,48 @@ body.admin .admin-add-event{display:block}
 .admin-add-event textarea{min-height:60px;resize:vertical}
 .admin-unsaved{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--amber);color:var(--ink);font-size:11px;font-weight:700;margin-left:8px}
 
+/* CLIENT REQUESTS */
+.requests-block{background:linear-gradient(135deg,rgba(245,184,65,.08),rgba(232,168,124,.05));border:1px solid rgba(245,184,65,.25);border-radius:14px;padding:18px 20px;margin-bottom:22px}
+.requests-title{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:#8B6914;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px}
+.requests-title::before{content:'→';font-size:15px}
+.request-card{background:var(--white);border:1px solid rgba(245,184,65,.2);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.request-card:last-child{margin-bottom:0}
+.request-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+.request-title{font-size:15px;font-weight:700;color:var(--ink);flex:1}
+.status-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;white-space:nowrap;flex-shrink:0;cursor:default}
+.status-pill.pending{background:rgba(245,184,65,.15);color:#8B6914}
+.status-pill.pending::before{content:'●';color:var(--amber);font-size:9px}
+.status-pill.received{background:rgba(124,108,246,.12);color:#5544D0}
+.status-pill.received::before{content:'●';color:#7C6CF6;font-size:9px}
+.status-pill.done{background:rgba(133,200,138,.14);color:var(--mint-dark)}
+.status-pill.done::before{content:'✓';font-size:11px}
+body.admin .status-pill{cursor:pointer}
+.request-desc{font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:12px}
+.request-response{background:linear-gradient(135deg,rgba(133,200,138,.08),rgba(133,200,138,.02));border-left:3px solid var(--mint);border-radius:6px;padding:10px 14px;margin-top:10px}
+.response-label{font-size:11px;font-weight:700;color:var(--mint-dark);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+.response-text{font-size:14px;color:var(--ink);line-height:1.55;white-space:pre-wrap}
+.request-form{margin-top:10px;padding-top:12px;border-top:1px dashed var(--line)}
+.request-form textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;min-height:70px;resize:vertical;background:var(--white);margin-bottom:8px}
+.request-form textarea:focus{outline:0;border-color:var(--rose);box-shadow:0 0 0 3px rgba(214,79,135,.1)}
+.request-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-send,.btn-tg{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;transition:opacity .15s}
+.btn-send{background:var(--rose);color:var(--white)}
+.btn-send:hover{background:var(--pink)}
+.btn-send:disabled{opacity:.6;cursor:wait}
+.btn-tg{background:#0088cc;color:var(--white)}
+.btn-tg:hover{opacity:.88}
+.request-sent{font-size:13px;color:var(--mint-dark);font-weight:600;padding:8px 0}
+.admin-request-edit{margin-top:10px;padding-top:12px;border-top:1px dashed var(--line)}
+.admin-request-edit label{display:block;font-size:11px;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.admin-request-edit textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;min-height:60px;resize:vertical;background:var(--white)}
+.admin-request-edit textarea:focus{outline:0;border-color:var(--rose);box-shadow:0 0 0 3px rgba(214,79,135,.1)}
+.admin-request-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.admin-request-row button{padding:6px 10px;border-radius:6px;font-size:12px;font-weight:600;background:var(--bg);color:var(--ink);border:1px solid var(--line);cursor:pointer}
+.admin-request-row button:hover{background:var(--line)}
+.admin-request-row button.del{color:var(--red);border-color:rgba(230,57,70,.3)}
+.add-request-btn{margin-top:10px;padding:8px 12px;background:transparent;border:1px dashed var(--rose);border-radius:8px;color:var(--rose);font-weight:700;font-size:12px;cursor:pointer;width:100%}
+.add-request-btn:hover{background:rgba(214,79,135,.05)}
+
 /* FOOTER */
 footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white);margin-top:40px}
 .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
@@ -382,6 +424,7 @@ function render() {
       </div>
       <div class="phase-body">
         <div class="phase-desc" data-edit="phases.${idx}.description">${phase.description || ''}</div>
+        ${renderRequests(phase, idx)}
         <ul class="tasks">
           ${phase.tasks.map((t, ti) => `
             <li class="task ${t.done ? 'done' : ''}" data-phase="${idx}" data-task="${ti}">
@@ -455,6 +498,139 @@ function bindEdits() {
 
 function toggleTask(phaseIdx, taskIdx) {
   state.data.phases[phaseIdx].tasks[taskIdx].done = !state.data.phases[phaseIdx].tasks[taskIdx].done;
+  markDirty();
+  render();
+}
+
+function renderRequests(phase, idx) {
+  const reqs = phase.client_requests || [];
+  if (!reqs.length && !state.admin) return '';
+  const cards = reqs.map((r, ri) => {
+    const statusLabel = { pending: 'Очікуємо', received: 'Отримано', done: 'Готово' }[r.status] || 'Очікуємо';
+    const hasResponse = r.response && r.response.trim();
+    const phaseTitle = phase.title.replace(/"/g, '&quot;');
+    const reqTitle = r.title.replace(/"/g, '&quot;');
+    const projectName = (state.data.project.name || '').replace(/"/g, '&quot;');
+    const tgMsg = encodeURIComponent(`Відповідь на запит «${r.title}» (етап: ${phase.title}, проєкт: ${state.data.project.name}):\n\n`);
+    const tgUrl = `${state.data.contact?.telegram || 'https://t.me/andreykrasik'}?text=${tgMsg}`;
+    return `
+      <div class="request-card" data-req="${idx}.${ri}">
+        <div class="request-head">
+          <div class="request-title" data-edit="phases.${idx}.client_requests.${ri}.title">${r.title}</div>
+          <span class="status-pill ${r.status || 'pending'}" ${state.admin ? `onclick="cycleStatus(${idx},${ri})"` : ''} title="${state.admin ? 'Клік — змінити статус' : ''}">${statusLabel}</span>
+        </div>
+        <div class="request-desc" data-edit="phases.${idx}.client_requests.${ri}.description">${r.description}</div>
+        ${hasResponse ? `
+          <div class="request-response">
+            <div class="response-label">✓ Відповідь отримано${r.response_date ? ' · ' + formatDateLong(r.response_date) : ''}</div>
+            <div class="response-text" data-edit="phases.${idx}.client_requests.${ri}.response">${r.response}</div>
+          </div>
+        ` : ''}
+        ${!state.admin && r.status === 'pending' ? `
+          <div class="request-form" data-form="${idx}.${ri}">
+            <textarea id="req-text-${idx}-${ri}" placeholder="Напишіть відповідь, дані або коментар..."></textarea>
+            <div class="request-actions">
+              <button class="btn-send" onclick="sendRequestResponse(${idx},${ri})">📩 Надіслати відповідь</button>
+              <a class="btn-tg" href="${tgUrl}" target="_blank" rel="noopener">✈ Написати у Telegram</a>
+            </div>
+          </div>
+        ` : ''}
+        ${state.admin ? `
+          <div class="admin-request-edit">
+            <label>Відповідь клієнта (видима на сторінці після збереження)</label>
+            <textarea data-edit="phases.${idx}.client_requests.${ri}.response" placeholder="Вставте сюди те, що надіслав клієнт...">${r.response || ''}</textarea>
+            <div class="admin-request-row">
+              <button onclick="cycleStatus(${idx},${ri})">Статус: ${statusLabel} →</button>
+              <button onclick="markResponseDate(${idx},${ri})">Поставити дату відповіді</button>
+              <button class="del" onclick="deleteRequest(${idx},${ri})">× Видалити запит</button>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+  return `
+    <div class="requests-block">
+      <div class="requests-title">Що потрібно від вас для цього етапу</div>
+      ${cards}
+      ${state.admin ? `<button class="add-request-btn" onclick="addRequest(${idx})">+ Додати запит для цього етапу</button>` : ''}
+    </div>
+  `;
+}
+
+async function sendRequestResponse(phaseIdx, reqIdx) {
+  const textarea = document.getElementById(`req-text-${phaseIdx}-${reqIdx}`);
+  const text = textarea.value.trim();
+  if (!text) { alert('Напишіть відповідь перед відправкою'); return; }
+  const phase = state.data.phases[phaseIdx];
+  const req = phase.client_requests[reqIdx];
+  const btn = textarea.parentElement.querySelector('.btn-send');
+  btn.disabled = true;
+  btn.textContent = 'Надсилаємо...';
+
+  const email = state.data.contact?.formsubmit || state.data.contact?.email || 'krasprod.nk@gmail.com';
+  const payload = {
+    _subject: `[${state.data.project.name}] Відповідь на запит: ${req.title}`,
+    _template: 'table',
+    'Проєкт': state.data.project.name,
+    'Клієнт': state.data.project.client,
+    'Етап': phase.title,
+    'Запит': req.title,
+    'ID запиту': req.id,
+    'Відповідь клієнта': text,
+    'Дата': new Date().toISOString()
+  };
+
+  try {
+    const r = await fetch(`https://formsubmit.co/ajax/${email}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!r.ok) throw new Error('Сервіс відправки недоступний');
+    const form = textarea.parentElement;
+    form.innerHTML = '<div class="request-sent">✓ Відповідь надіслано. Дякуємо! Андрій отримав її і незабаром оновить статус запиту.</div>';
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = '📩 Надіслати відповідь';
+    alert('Не вдалось надіслати: ' + e.message + '\n\nСпробуйте через Telegram-кнопку поруч.');
+  }
+}
+
+function cycleStatus(phaseIdx, reqIdx) {
+  const req = state.data.phases[phaseIdx].client_requests[reqIdx];
+  const next = { pending: 'received', received: 'done', done: 'pending' };
+  req.status = next[req.status || 'pending'];
+  if (req.status === 'received' && !req.response_date) req.response_date = new Date().toISOString().slice(0,10);
+  markDirty();
+  render();
+}
+
+function markResponseDate(phaseIdx, reqIdx) {
+  state.data.phases[phaseIdx].client_requests[reqIdx].response_date = new Date().toISOString().slice(0,10);
+  markDirty();
+  render();
+}
+
+function addRequest(phaseIdx) {
+  const phase = state.data.phases[phaseIdx];
+  if (!phase.client_requests) phase.client_requests = [];
+  const newId = `${phase.id}.${String.fromCharCode(97 + phase.client_requests.length)}`;
+  phase.client_requests.push({
+    id: newId,
+    title: 'Новий запит',
+    description: 'Опис запиту...',
+    status: 'pending',
+    response: '',
+    response_date: ''
+  });
+  markDirty();
+  render();
+}
+
+function deleteRequest(phaseIdx, reqIdx) {
+  if (!confirm('Видалити цей запит?')) return;
+  state.data.phases[phaseIdx].client_requests.splice(reqIdx, 1);
   markDirty();
   render();
 }
