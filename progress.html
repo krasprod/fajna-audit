@@ -720,6 +720,13 @@ async function notifyTelegram(text) {
   const token = n.telegram_bot_token;
   const chatId = n.telegram_chat_id;
   if (!token || !chatId) return;
+  // sanity guard: drop empty / punctuation-only / too-short payloads
+  const stripped = (text || '').replace(/<[^>]+>/g, '').trim();
+  const meaningful = stripped.replace(/[\s.,!?·—\-–:;"'`()\[\]{}]/g, '');
+  if (meaningful.length < 8) {
+    console.warn('Telegram notify skipped (too short):', text);
+    return;
+  }
   try {
     await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
