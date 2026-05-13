@@ -406,7 +406,8 @@ footer{padding:40px 0;border-top:1px solid var(--line);background:var(--white);m
   <h4>Адмін-режим</h4>
   <p id="admin-status">Зміни ще не збережено.</p>
   <button class="admin-btn" onclick="saveData()">💾 Зберегти у репозиторій</button>
-  <button class="admin-btn ghost" onclick="resetPat()" style="margin-top:8px;font-size:11px;padding:6px">Скинути токен</button>
+  <button class="admin-btn ghost" onclick="setTgToken()" style="margin-top:8px;font-size:11px;padding:6px">🤖 Telegram-токен</button>
+  <button class="admin-btn ghost" onclick="resetPat()" style="margin-top:8px;font-size:11px;padding:6px">Скинути GitHub-токен</button>
 </div>
 
 <script>
@@ -716,8 +717,10 @@ function renderRequests(phase, idx) {
 }
 
 async function notifyTelegram(text) {
+  // Only admin can trigger Telegram. Token lives in localStorage (NEVER in public data.json).
+  if (!state.admin) return;
   const n = state.data.notifications || {};
-  const token = n.telegram_bot_token;
+  const token = localStorage.getItem('tg_bot_token_fajna');
   const chatId = n.telegram_chat_id;
   if (!token || !chatId) return;
   // sanity guard: drop empty / punctuation-only / too-short payloads
@@ -897,7 +900,27 @@ async function saveData() {
 
 function resetPat() {
   localStorage.removeItem('gh_pat');
-  alert('Токен видалено. При наступному збереженні запитає знову.');
+  alert('GitHub-токен видалено. При наступному збереженні запитає знову.');
+}
+
+function setTgToken() {
+  const cur = localStorage.getItem('tg_bot_token_fajna') || '';
+  const masked = cur ? cur.slice(0, 10) + '…' + cur.slice(-4) : '(не задано)';
+  const next = prompt(
+    `Telegram bot token для @faina_perukarnya_bot.\n` +
+    `Зберігається лише в твоєму браузері (localStorage).\n` +
+    `Поточний: ${masked}\n\n` +
+    `Введи новий або залиш порожнім щоб видалити:`,
+    cur
+  );
+  if (next === null) return;
+  if (next.trim() === '') {
+    localStorage.removeItem('tg_bot_token_fajna');
+    alert('Telegram-токен видалено. Бот більше не шле сповіщення з цього браузера.');
+  } else {
+    localStorage.setItem('tg_bot_token_fajna', next.trim());
+    alert('Telegram-токен збережено.');
+  }
 }
 
 // Helpers
